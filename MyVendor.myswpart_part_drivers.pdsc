@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:stm32="https://developer.st.com/schemas/stm32cube/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.7.55" xsi:noNamespaceSchemaLocation="PACK.xsd" xsi:schemaLocation="https://developer.st.com/schemas/stm32cube/1.0.0 stm32cube.xsd">
+  <vendor>MyVendor</vendor>
+  <name>myswpart_part_drivers</name>
+  <description>Minimal board part driver pack for the MySWPart software template</description>
+  <url>https://example.com/pack-server/</url>
+  <repository type="git">https://github.com/MyVendor/stm32-myswpart-part-drivers</repository>
+  <license>LICENSE.md</license>
+  <environments>
+    <environment name="STM32Cube">
+      <stm32:pack type="PARTDRV" friendlyName="MySWPart" shortDesc="MySWPart part driver">
+        <relocation-info parent="part_drivers" layer="" element=""/>
+        <compatibility>
+          <release version="1.0.0">
+            <applicable-schema schemaType="sw-configuration" schemaVersion="3.7.0"/>
+            <applicable-api-group apiType="codegen-getters">
+              <applicable-api apiType="ExtiAPI" apiVersion="1.0.0"/>
+              <applicable-api apiType="pinoutAPI" apiVersion="1.0.0"/>
+              <applicable-api apiType="SWConfigurationAPI" apiVersion="1.0.0"/>
+            </applicable-api-group>
+          </release>
+        </compatibility>
+      </stm32:pack>
+    </environment>
+  </environments>
+  <ECCN>
+    <ECCN-EU>NEC</ECCN-EU>
+    <ECCN-US>EAR99</ECCN-US>
+  </ECCN>
+  <releases>
+    <release version="1.0.0" date="2026-02-24">
+      Initial release.
+    </release>
+  </releases>
+  <keywords>
+    <keyword>MyVendor</keyword>
+    <keyword>MyVendor Board Part Package</keyword>
+    <keyword>BSP</keyword>
+    <keyword>Parts</keyword>
+    <keyword>Drivers</keyword>
+    <keyword>MySWPart</keyword>
+    <keyword>MEMS</keyword>
+    <keyword>Sensor</keyword>
+  </keywords>
+  <conditions>
+    <condition id="MySWPart Core Condition">
+      <description>MyVendor MySWPart Core Driver</description>
+      <require Cclass="Board Part" Cgroup="Sensor" Csub="MySWPart IO"/>
+    </condition>
+    <condition id="MySWPart IO I2C Polling Condition">
+      <description>MyVendor MySWPart IO I2C Polling Driver</description>
+      <require Cclass="Device" Cgroup="STM32 HAL" Csub="I2C"/>
+      <require Cclass="Device" Cgroup="STM32 HAL" Csub="GPIO"/>
+      <require Cclass="Device" Cgroup="STM32 HAL" Csub="EXTI"/>
+    </condition>
+    <condition id="MySWPart IO SPI Polling Condition">
+      <description>MyVendor MySWPart IO SPI Polling Driver</description>
+      <require Cclass="Device" Cgroup="STM32 HAL" Csub="SPI"/>
+      <require Cclass="Device" Cgroup="STM32 HAL" Csub="GPIO"/>
+      <require Cclass="Device" Cgroup="STM32 HAL" Csub="EXTI"/>
+    </condition>
+    <condition id="MySWPart CFG Condition">
+      <description>MyVendor configuration for MySWPart part driver</description>
+    </condition>
+    <condition id="MySWPart Custom IO Condition">
+
+    </condition>
+  </conditions>
+  <generators>
+    <generator id="myswpart_mx2codegen">
+      <description>MyVendor: STM32 Cube Code Generator for MySWPart drivers pack</description>
+      <exe>
+        <command host="win">.config/gen_code.bat</command>
+        <command host="linux">.config/gen_code.sh</command>
+        <command host="mac">.config/gen_code.sh</command>
+        <argument>myswpart_mx2codegen</argument>
+        <argument>$G</argument>
+        <argument>MyVendor.myswpart_part_drivers.gpdsc.hbs</argument>
+        <argument mode="dry-run">--dry-run</argument>
+      </exe>
+      <gpdsc name="$P/MyVendor.myswpart_part_drivers.gpdsc"/>
+    </generator>
+  </generators>
+  <components>
+    <component Cvendor="MyVendor" Cclass="Board Part" Cgroup="Sensor" Csub="MySWPart Core" Cversion="0.10.0" condition="MySWPart Core Condition">
+      <description>Minimal core driver template for MySWPart</description>
+      <files>
+        <file category="header" name="myswpart.h"/>
+        <file category="source" name="myswpart.c"/>
+      </files>
+    </component>
+    <component Cvendor="MyVendor" Cclass="Board Part" Cgroup="Sensor" Csub="MySWPart IO" Cvariant="I2C Polling" Cversion="0.2.0" condition="MySWPart IO I2C Polling Condition">
+      <description>Minimal I2C I/O layer for MySWPart</description>
+      <files>
+        <file category="header" name="interfaces/i2c/myswpart_io.h"/>
+        <file category="source" name="interfaces/i2c/myswpart_io.c"/>
+      </files>
+    </component>
+    <component Cvendor="MyVendor" Cclass="Board Part" Cgroup="Sensor" Csub="MySWPart IO" Cvariant="SPI Polling" Cversion="0.2.0" condition="MySWPart IO SPI Polling Condition">
+      <description>Minimal SPI I/O layer for MySWPart</description>
+      <files>
+        <file category="header" name="interfaces/spi/myswpart_io.h"/>
+        <file category="source" name="interfaces/spi/myswpart_io.c"/>
+      </files>
+    </component>
+    <component Cvendor="MyVendor" Cclass="Board Part" Cgroup="Sensor" Csub="MySWPart IO" Cvariant="Custom" Cversion="0.2.0" condition="MySWPart Custom IO Condition">
+      <description>Custom I/O layer template for MySWPart</description>
+      <files>
+        <file category="header" name="interfaces/custom/myswpart_io.h" attr="config"/>
+        <file category="source" name="interfaces/custom/myswpart_io.c" attr="config"/>
+      </files>
+    </component>
+    <component generator="myswpart_mx2codegen" Cclass="Board Part" Cgroup="STM32CubeMX2 Config" Csub="MySWPart" Cversion="0.12.0" condition="MySWPart CFG Condition" maxInstances="1">
+      <description>MySWPart STM32CubeMX2 Config</description>
+      <environments>
+        <environment name="STM32Cube">
+          <stm32:component>
+            <supported-part-types>
+              <supported-part-type Hvendor="MyVendor" Hname="MyHwPart" Hvariant="MyHwPart-AB-CD" Hclass="Interfaces and Transceivers" Hgroup="Transceivers" Hsub="Ethernet"/>
+            </supported-part-types>
+          </stm32:component>
+        </environment>
+      </environments>
+      <files>
+        <file category="genAsset" name=".config/gen_code.bat"/>
+        <file category="genAsset" name=".config/gen_code.sh"/>
+        <file category="genAsset" name=".config/MyVendor.myswpart_part_drivers.gpdsc.hbs"/>
+        <file category="genAsset" name=".config/mx_myswpart_parameters.json"/>
+        <file category="genAsset" name=".config/template/mx_myswpart_template.h.hbs"/>
+        <file category="genAsset" name=".config/template/mx_myswpart_template.c.hbs"/>
+        <file category="genAsset" name=".config/template/mx_myswpart_license_template.md.hbs"/>
+        <file category="genAsset" name=".config/template/hooks/mapping_hook.js"/>
+      </files>
+    </component>
+  </components>
+</package>
