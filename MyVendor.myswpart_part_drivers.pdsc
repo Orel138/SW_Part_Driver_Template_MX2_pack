@@ -3,8 +3,7 @@
   <vendor>MyVendor</vendor>
   <name>myswpart_part_drivers</name>
   <description>Minimal board part driver pack for the MySWPart software template</description>
-  <url>https://example.com/pack-server/</url>
-  <repository type="git">https://github.com/MyVendor/stm32-myswpart-part-drivers</repository>
+  <url>https://github.com/Orel138/SW_Part_Driver_Template_MX2_pack/raw/main/</url>
   <license>LICENSE.md</license>
   <environments>
     <environment name="STM32Cube">
